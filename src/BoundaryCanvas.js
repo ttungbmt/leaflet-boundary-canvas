@@ -84,7 +84,7 @@ var ExtendMethods = {
         }
         
         this._mercBbox = new L.Bounds();
-        for (c = 0; c < this._mercBoundary.length; c++) {
+        for (var c = 0; c < this._mercBoundary.length; c++) {
             compomentBbox = new L.Bounds(this._mercBoundary[c][0]);
             this._mercBbox.extend(compomentBbox.min);
             this._mercBbox.extend(compomentBbox.max);
@@ -364,7 +364,12 @@ L.TileLayer.boundaryCanvas = function (url, options) {
 };
 
 L.TileLayer.BoundaryCanvas.createFromLayer = function (layer, options) {
-    return new L.TileLayer.BoundaryCanvas(layer._url, L.extend({}, layer.options, options));
+    if(layer instanceof L.TileLayer){
+        return new L.TileLayer.BoundaryCanvas(layer._url, L.extend({}, layer.options, options));
+    }
+
+    console.warn('Your tileLayer doesn\' instanceof L.TileLayer');
+    return layer;
 };
 
 })();
